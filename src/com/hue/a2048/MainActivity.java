@@ -1,5 +1,5 @@
 
-package com.uberspot.a2048;
+package com.hue.a2048;
 
 import java.util.Locale;
 
@@ -26,6 +26,12 @@ import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.uberspot.a2048.R;
+
 import de.cketti.library.changelog.ChangeLog;
 
 public class MainActivity extends Activity {
@@ -40,6 +46,8 @@ public class MainActivity extends Activity {
     private long mLastTouch;
     private static final long mTouchThreshold = 2000;
     private Toast pressBackToast;
+    private AdView mAdView;
+    private InterstitialAd mInterstitialAd;
 
     @SuppressLint({ "SetJavaScriptEnabled", "NewApi", "ShowToast" })
     @Override
@@ -101,7 +109,6 @@ public class MainActivity extends Activity {
             mWebView.loadUrl("file:///android_asset/2048/index.html?lang=" + Locale.getDefault().getLanguage());
         }
 
-        Toast.makeText(getApplication(), R.string.toggle_fullscreen, Toast.LENGTH_SHORT).show();
         // Set fullscreen toggle on webview LongClick
         mWebView.setOnTouchListener(new OnTouchListener() {
 
@@ -126,6 +133,15 @@ public class MainActivity extends Activity {
 
         pressBackToast = Toast.makeText(getApplicationContext(), R.string.press_back_again_to_exit,
                 Toast.LENGTH_SHORT);
+
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-4492637372007210/6928446888");
+        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+        mInterstitialAd.loadAd(adRequestBuilder.build());
     }
 
     @Override
@@ -187,7 +203,9 @@ public class MainActivity extends Activity {
         if (Math.abs(currentTime - mLastBackPress) > mBackPressThreshold) {
             pressBackToast.show();
             mLastBackPress = currentTime;
+            mInterstitialAd.show();
         } else {
+            mInterstitialAd.show();
             pressBackToast.cancel();
             super.onBackPressed();
         }

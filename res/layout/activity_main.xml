@@ -1,12 +1,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    tools:context=".MainActivity" >
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	xmlns:ads="http://schemas.android.com/apk/res-auto"
+	tools:context="com.hue.a2048.MainActivity"
+	android:orientation="vertical">
 
-    <WebView
-	    android:id="@+id/mainWebView"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent" />
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+		<WebView
+			android:id="@+id/mainWebView"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent" />
 
+
+		<com.google.android.gms.ads.AdView
+			android:id="@+id/adView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			ads:adSize="BANNER"
+			android:layout_centerHorizontal="true"
+			android:layout_alignParentBottom="true"
+			ads:adUnitId="@string/banner_ad_unit_id">
+		</com.google.android.gms.ads.AdView>
+	</RelativeLayout>
 </LinearLayout>
